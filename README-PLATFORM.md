@@ -1,4 +1,4 @@
-# Go Platform Challenge
+# Platform Challenge
 
 ## Instructions
 
