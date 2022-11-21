@@ -10,7 +10,7 @@ We think infrastructure is best represented as code, and provisioning of resourc
 * You *shall* complete this challenege using **Kubernetes**,
 * You *should* try to show your platform process to present a **production-ready** infrastructure,
 * You *should* work in infrastructure folder, so all your artefacts ends up in `infrastructure` folder,
-* You *should* provide a diagrma explaining your infrastructure architecture
+* You *should* provide a diagram explaining your infrastructure architecture
 * Please, describe your approach, your technical choices, including architectural, and anything you want us to know in a `Results.md` file,
 
 ## The Scenario
