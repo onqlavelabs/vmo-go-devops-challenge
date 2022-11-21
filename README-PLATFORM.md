@@ -1,4 +1,4 @@
-# Go Programming Challenge
+# Go Platform Challenge
 
 ## Instructions
 
