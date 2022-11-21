@@ -1,14 +1,12 @@
 # Go Programming Challenge
 
-Hello 👋
-This is Onqlave's challenge for potential new engineering team members.
-
 ## Instructions
 
-Fork this repository, and implement the scenario described below.
+**Branch out** this repository, and implement the scenario described below.
 
 * You *shall* complete this challenge using **Go language**,
 * You *should* try to show your development process to present a **production-ready** code,
+* You *should* work in application folder, so all your artefacts ends up in `application` folder 
 * Please, describe your approach, your technical choices, including architectural, and anything you want us to know in a `Results.md` file,
 
 ## The Scenario
@@ -23,7 +21,7 @@ Your mission is to implement a single endpoint that will be integrated in a larg
 
 ## The database
 
-The initial database is provided in a file [db.json](db.json).
+The initial database is provided in a file [db.json](/application/db.json).
 You are expected to integrate the data in a mongodb local instance (docker), and explain how to install, launch and populate the database. This database **must** be used by your code.
 The schema of the provided data is :
 
@@ -105,7 +103,7 @@ Bonus point (those items are optional):
 
 ## Done ?
 
-Great job! When you're all finished, open a PR and we'll review it together 🙌
+Great job! When you're all finished, **make sure it is already communicated with your platform engineer and it is deployed to environment as per specification**, open a PR and we'll review it together 🙌
 
 ## Thanks
 
