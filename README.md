@@ -7,4 +7,4 @@ This is Onqlave's challenge for potential new engineering team members. This is 
 ## Instructions
 
 * For **Software Engineer** role, please read instruction [Programming](README-PROGRAMMING.md)
-* For **Platform engineer** role, please read instruction [Platform](README-PLATFORM.md)
+* For **Platform Engineer** role, please read instruction [Platform](README-PLATFORM.md)
