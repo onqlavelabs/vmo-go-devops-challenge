@@ -5,9 +5,9 @@ import (
 )
 
 type Application struct {
-    database.BaseModel
-    Name        string `bson:"name"`
-    Description string `bson:"description"`
-    Enabled     bool   `bson:"enabled"`
-    Type        string `bson:"type"`
+    database.BaseModel `bson:",inline"`
+    Name               string `bson:"name"`
+    Description        string `bson:"description"`
+    Enabled            bool   `bson:"enabled"`
+    Type               string `bson:"type"`
 }

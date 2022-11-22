@@ -40,7 +40,7 @@ func (c *ApplicationController) RegisterHandler() {
 // @Produce      json
 // @Param        id   path      string  true  "Application ID"
 // @Success      200  {object}  message.Application
-// @Failure      500  {object}  interface{} "{"error":"error_code", "message":"error_description"}"
+// @Failure      500  {object}  interface{} "{"message":"error_description"}"
 // @Router       /applications/{id} [get]
 func (c *ApplicationController) Get(e echo.Context) error {
     request := &message.OneApplicationRequest{ID: e.Param("id")}
@@ -65,7 +65,7 @@ func (c *ApplicationController) Get(e echo.Context) error {
 // @Param        name      query		string	false	"page limit"
 // @Param        enabled   query        bool	false	"page limit"
 // @Success      200  {object}  message.ListApplicationResponse
-// @Failure      500  {object}  interface{} "{"error":"error_code", "message":"error_description"}"
+// @Failure      500  {object}  interface{} "{"message":"error_description"}"
 // @Router       /applications [get]
 func (c *ApplicationController) List(e echo.Context) error {
     request := &message.ListApplicationRequest{
@@ -100,7 +100,7 @@ func (c *ApplicationController) List(e echo.Context) error {
 // @Produce      json
 // @Param        application    body   message.Application true  "Application Data"
 // @Success      204  {object}  message.Application
-// @Failure      500  {object}  interface{} "{"error":"error_code", "message":"error_description"}"
+// @Failure      500  {object}  interface{} "{"message":"error_description"}"
 // @Router       /applications [post]
 func (c *ApplicationController) Create(e echo.Context) error {
     payload := new(message.Application)
@@ -125,7 +125,7 @@ func (c *ApplicationController) Create(e echo.Context) error {
 // @Param        application body      message.Application true  "Application Data"
 // @Param        id          path      string              true  "Application ID"
 // @Success      200  {object}  message.Application
-// @Failure      500  {object}  interface{} "{"error":"error_code", "message":"error_description"}"
+// @Failure      500  {object}  interface{} "{"message":"error_description"}"
 // @Router       /applications/{id} [put]
 func (c *ApplicationController) Update(e echo.Context) error {
     payload := new(message.Application)
@@ -150,7 +150,7 @@ func (c *ApplicationController) Update(e echo.Context) error {
 // @Produce      json
 // @Param        id   path      string  true  "Application ID"
 // @Success      200  {object}  interface{} "{}"
-// @Failure      500  {object}  interface{} "{"error":"error_code", "message":"error_description"}"
+// @Failure      500  {object}  interface{} "{"message":"error_description"}"
 // @Router       /applications/{id} [delete]
 func (c *ApplicationController) Delete(e echo.Context) error {
     request := &message.OneApplicationRequest{ID: e.Param("id")}

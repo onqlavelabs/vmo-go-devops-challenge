@@ -9,7 +9,7 @@ import (
 
 func prepareApplicationToResponse(o *model.Application) *message.Application {
     return &message.Application{
-        ID:          o.ID.String(),
+        ID:          o.ID.Hex(),
         Name:        o.Name,
         Description: o.Description,
         Type:        o.Type,

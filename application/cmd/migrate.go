@@ -21,13 +21,14 @@ func init() {
 }
 
 func RunMigrateCommand(cmd *cobra.Command, args []string) {
-    mongoDb := database.NewMongoDatabase(viper.GetString("mongoUri"))
+    mongoDb := database.NewMongoDatabase(viper.GetString("mongoDb"))
 
     db, err := mongoDb.Connect()
     if err != nil {
         logger.Log.WithFields(logrus.Fields{
             "package": "cmd",
             "method":  "RunMigrateCommand",
+            "dsn":     viper.GetString("mongoDb"),
         }).WithError(err).Error("connect mongo database instance failed")
         os.Exit(1)
     }
@@ -37,6 +38,7 @@ func RunMigrateCommand(cmd *cobra.Command, args []string) {
         logger.Log.WithFields(logrus.Fields{
             "package": "cmd",
             "method":  "RunMigrateCommand",
+            "dsn":     viper.GetString("mongoDb"),
         }).WithError(err).Error("migrate mongo collection failed")
         os.Exit(1)
     }

@@ -20,7 +20,7 @@ var ApplicationSchema = bson.M{
         },
         "description": bson.M{
             "bsonType":    "string",
-            "description": "optional",
+            "description": "optional description",
             "minLength":   0,
             "maxLength":   255,
         },
