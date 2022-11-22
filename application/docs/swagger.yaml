@@ -1,0 +1,177 @@
+definitions:
+  message.Application:
+    properties:
+      description:
+        type: string
+      enabled:
+        type: boolean
+      id:
+        type: string
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  message.ListApplicationResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/message.Application'
+        type: array
+      limit:
+        type: integer
+      max_page:
+        type: integer
+      page:
+        type: integer
+      total_count:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /applications:
+    get:
+      consumes:
+      - application/json
+      description: Get applications list by page and limit
+      parameters:
+      - description: current page
+        in: query
+        name: page
+        type: integer
+      - description: page limit
+        in: query
+        name: limit
+        type: integer
+      - description: current page
+        in: query
+        name: type
+        type: string
+      - description: page limit
+        in: query
+        name: name
+        type: string
+      - description: page limit
+        in: query
+        name: enabled
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.ListApplicationResponse'
+        "500":
+          description: '{"error":"error_code", "message":"error_description"}'
+          schema:
+            type: object
+      summary: Get applications list
+      tags:
+      - applications
+    post:
+      consumes:
+      - application/json
+      description: Create new application
+      parameters:
+      - description: Application Data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/message.Application'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/message.Application'
+        "500":
+          description: '{"error":"error_code", "message":"error_description"}'
+          schema:
+            type: object
+      summary: Create new application
+      tags:
+      - applications
+  /applications/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an application detail by ID
+      parameters:
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{}'
+          schema:
+            type: object
+        "500":
+          description: '{"error":"error_code", "message":"error_description"}'
+          schema:
+            type: object
+      summary: Delete an application
+      tags:
+      - applications
+    get:
+      consumes:
+      - application/json
+      description: Get an application by ID
+      parameters:
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Application'
+        "500":
+          description: '{"error":"error_code", "message":"error_description"}'
+          schema:
+            type: object
+      summary: Get an application detail
+      tags:
+      - applications
+    put:
+      consumes:
+      - application/json
+      description: Update application detail by ID
+      parameters:
+      - description: Application Data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/message.Application'
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Application'
+        "500":
+          description: '{"error":"error_code", "message":"error_description"}'
+          schema:
+            type: object
+      summary: Update application detail
+      tags:
+      - applications
+swagger: "2.0"

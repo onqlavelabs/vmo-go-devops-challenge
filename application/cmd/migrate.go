@@ -1,11 +1,11 @@
 package cmd
 
 import (
+    "github.com/sirupsen/logrus"
     "os"
 
     "github.com/dinhtp/vmo-go-devops-challenge/application/database"
     "github.com/dinhtp/vmo-go-devops-challenge/application/logger"
-    "github.com/dinhtp/vmo-go-devops-challenge/application/migration"
     "github.com/spf13/cobra"
     "github.com/spf13/viper"
 )
@@ -25,13 +25,19 @@ func RunMigrateCommand(cmd *cobra.Command, args []string) {
 
     db, err := mongoDb.Connect()
     if err != nil {
-        logger.Log.WithError(err).Error("connect mongo database instance failed")
+        logger.Log.WithFields(logrus.Fields{
+            "package": "cmd",
+            "method":  "RunMigrateCommand",
+        }).WithError(err).Error("connect mongo database instance failed")
         os.Exit(1)
     }
 
-    err = migration.Migrate(db)
+    err = database.Migrate(db)
     if err != nil {
-        logger.Log.WithError(err).Error("migrate mongo collection failed")
+        logger.Log.WithFields(logrus.Fields{
+            "package": "cmd",
+            "method":  "RunMigrateCommand",
+        }).WithError(err).Error("migrate mongo collection failed")
         os.Exit(1)
     }
 

@@ -29,7 +29,8 @@ func (mg *MongoDatabase) Connect() (*mongo.Client, error) {
         return nil, err
     }
 
-    if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
+    err = client.Ping(context.TODO(), readpref.Primary())
+    if err != nil {
         return nil, err
     }
 

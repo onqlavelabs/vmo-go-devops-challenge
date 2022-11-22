@@ -23,6 +23,10 @@ func init() {
 }
 
 func RunServeCommand(cmd *cobra.Command, args []string) {
-    echoServer := &server.EchoServer{Address: viper.GetString("address")}
-    echoServer.Serve()
+    //db, err := database.NewMongoDatabase(viper.GetString("mongoUri")).Connect()
+    //if err != nil {
+    //    panic(err)
+    //}
+
+    server.NewEchoServer(viper.GetString("address"), nil).Serve()
 }
