@@ -2,12 +2,16 @@ package controller
 
 import (
     "context"
+    "fmt"
     "net/http"
 
     "github.com/dinhtp/vmo-go-devops-challenge/application/domain/application"
+    "github.com/dinhtp/vmo-go-devops-challenge/application/domain/auth"
     "github.com/dinhtp/vmo-go-devops-challenge/application/message"
+    "github.com/dinhtp/vmo-go-devops-challenge/application/model"
     "github.com/dinhtp/vmo-go-devops-challenge/application/util"
     "github.com/labstack/echo/v4"
+    "github.com/labstack/echo/v4/middleware"
     "go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -21,9 +25,10 @@ func NewApplicationController(server *echo.Echo, db *mongo.Client) *ApplicationC
 }
 
 func (c *ApplicationController) RegisterHandler() {
-    group := c.server.Group("/api/v1/applications")
+    group := c.server.Group(fmt.Sprintf("/%s/%s", message.BasePath, message.ApplicationsPath))
 
-    //c.registerMiddleware(group)
+    jwtConfig := middleware.JWTConfig{Claims: &model.JwtAuthClaim{}, SigningKey: []byte(auth.DefaultTokenSecret)}
+    group.Use(middleware.JWTWithConfig(jwtConfig))
 
     group.GET("/:id", c.Get)
     group.GET("", c.List)

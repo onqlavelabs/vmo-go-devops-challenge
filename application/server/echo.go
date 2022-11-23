@@ -22,6 +22,7 @@ func (s *EchoServer) Serve() {
     server := echo.New()
 
     controller.InitSwagger(server)
+    controller.NewAuthController(server).RegisterHandler()
     controller.NewApplicationController(server, s.db).RegisterHandler()
 
     server.Logger.Fatal(server.Start(s.address))

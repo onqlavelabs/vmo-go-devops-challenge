@@ -90,7 +90,7 @@ func (s *Service) Update(ctx context.Context, r *message.Application) (*message.
         return nil, err
     }
 
-    r.ID = result.ID.String()
+    r.ID = result.ID.Hex()
     updateData := prepareApplicationToUpdate(r)
     updated, err := s.repo.Update(ctx, prepareApplicationToUpdate(r))
     if err != nil {

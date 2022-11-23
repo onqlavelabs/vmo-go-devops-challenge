@@ -233,6 +233,52 @@
                     }
                 }
             }
+        },
+        "/authenticate": {
+            "post": {
+                "description": "Authenticate existing user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Authenticate existing user",
+                "parameters": [
+                    {
+                        "description": "Authenticate Data",
+                        "name": "application",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/message.AuthRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/message.AuthResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "{\"message\":\"error_description\"}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "{\"message\":\"error_description\"}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -258,6 +304,28 @@
                 "type": {
                     "type": "string",
                     "example": "web"
+                }
+            }
+        },
+        "message.AuthRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "message.AuthResponse": {
+            "type": "object",
+            "properties": {
+                "bearer_token": {
+                    "type": "string"
+                },
+                "expired_in": {
+                    "type": "integer"
                 }
             }
         },

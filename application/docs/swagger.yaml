@@ -18,6 +18,20 @@ definitions:
         example: web
         type: string
     type: object
+  message.AuthRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  message.AuthResponse:
+    properties:
+      bearer_token:
+        type: string
+      expired_in:
+        type: integer
+    type: object
   message.ListApplicationResponse:
     properties:
       items:
@@ -190,6 +204,36 @@ paths:
       summary: Update application detail
       tags:
       - applications
+  /authenticate:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate existing user
+      parameters:
+      - description: Authenticate Data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/message.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.AuthResponse'
+        "403":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+        "500":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+      summary: Authenticate existing user
+      tags:
+      - authentication
 securityDefinitions:
   ApiKeyAuth:
     in: header
