@@ -1,7 +1,6 @@
 package application
 
 import (
-    "github.com/dinhtp/vmo-go-devops-challenge/application/database"
     "github.com/dinhtp/vmo-go-devops-challenge/application/message"
     "github.com/dinhtp/vmo-go-devops-challenge/application/model"
     "go.mongodb.org/mongo-driver/bson/primitive"
@@ -19,7 +18,7 @@ func prepareApplicationToResponse(o *model.Application) *message.Application {
 
 func prepareApplicationToCreate(o *message.Application) *model.Application {
     return &model.Application{
-        BaseModel:   database.BaseModel{ID: primitive.NewObjectID()},
+        BaseModel:   model.BaseModel{ID: primitive.NewObjectID()},
         Name:        o.Name,
         Description: o.Description,
         Enabled:     o.Enabled,

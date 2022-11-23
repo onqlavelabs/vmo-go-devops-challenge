@@ -3,7 +3,6 @@ module github.com/dinhtp/vmo-go-devops-challenge/application
 go 1.18
 
 require (
-	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1

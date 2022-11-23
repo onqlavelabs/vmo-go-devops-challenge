@@ -1,15 +1,21 @@
+basePath: /api/v1
 definitions:
   message.Application:
     properties:
       description:
+        example: Data privacy application description
         type: string
       enabled:
+        example: true
         type: boolean
       id:
+        example: 98q34hiufqh894yh554
         type: string
       name:
+        example: Data Privacy
         type: string
       type:
+        example: web
         type: string
     type: object
   message.ListApplicationResponse:
@@ -27,14 +33,24 @@ definitions:
       total_count:
         type: integer
     type: object
+host: localhost:8080
 info:
-  contact: {}
+  contact:
+    email: dinhtp@vmodev.com
+    name: Desmond
+  description: Sample Application Swagger API.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Programming Challenge Swagger API
+  version: "1.0"
 paths:
   /applications:
     get:
       consumes:
       - application/json
-      description: Get applications list by page and limit
+      description: Get applications list by page and limit, filter by "type", "name"
+        and "enabled"
       parameters:
       - description: current page
         in: query
@@ -55,7 +71,7 @@ paths:
       - description: page limit
         in: query
         name: enabled
-        type: boolean
+        type: string
       produces:
       - application/json
       responses:
@@ -64,7 +80,7 @@ paths:
           schema:
             $ref: '#/definitions/message.ListApplicationResponse'
         "500":
-          description: '{"error":"error_code", "message":"error_description"}'
+          description: '{"message":"error_description"}'
           schema:
             type: object
       summary: Get applications list
@@ -89,7 +105,7 @@ paths:
           schema:
             $ref: '#/definitions/message.Application'
         "500":
-          description: '{"error":"error_code", "message":"error_description"}'
+          description: '{"message":"error_description"}'
           schema:
             type: object
       summary: Create new application
@@ -114,7 +130,7 @@ paths:
           schema:
             type: object
         "500":
-          description: '{"error":"error_code", "message":"error_description"}'
+          description: '{"message":"error_description"}'
           schema:
             type: object
       summary: Delete an application
@@ -138,7 +154,7 @@ paths:
           schema:
             $ref: '#/definitions/message.Application'
         "500":
-          description: '{"error":"error_code", "message":"error_description"}'
+          description: '{"message":"error_description"}'
           schema:
             type: object
       summary: Get an application detail
@@ -168,10 +184,15 @@ paths:
           schema:
             $ref: '#/definitions/message.Application'
         "500":
-          description: '{"error":"error_code", "message":"error_description"}'
+          description: '{"message":"error_description"}'
           schema:
             type: object
       summary: Update application detail
       tags:
       - applications
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

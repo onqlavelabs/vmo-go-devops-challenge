@@ -3,24 +3,23 @@ version: '3.8'
 
 services:
   application-server:
-    image: localhost:5000/programming-challenge:latest
+    build: .
+    image: application-server
     restart: unless-stopped
-    command: programming-challenge serve
-    volumes:
-      - ./docs/:/app/docs/
+    command: /bin/sh -c "programming-challenge migration migrate && programming-challenge migration seed && programming-challenge serve"
     environment:
       - ADDRESS=0.0.0.0:9090
       - MONGODB=mongodb://root:root@application-mongo/?authSource=admin
     ports:
       - "8080:9090"
     depends_on:
-      - mongo
+      - application-mongo
     hostname: application-server
     container_name: application-server
     networks:
       - application
 
-  mongo:
+  application-mongo:
     image: mongo
     restart: unless-stopped
     environment:

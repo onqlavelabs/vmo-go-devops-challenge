@@ -39,13 +39,12 @@ func (s *Service) Get(ctx context.Context, r *message.OneApplicationRequest) (*m
 }
 
 func (s *Service) List(ctx context.Context, r *message.ListApplicationRequest) (*message.ListApplicationResponse, error) {
-    results, totalCount, err := s.repo.List(ctx)
+    results, totalCount, err := s.repo.List(ctx, r)
     if err != nil {
         return nil, err
     }
 
     var list []*message.Application
-
     for _, result := range results {
         list = append(list, prepareApplicationToResponse(result))
     }

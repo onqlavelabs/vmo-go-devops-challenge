@@ -2,8 +2,9 @@ package application
 
 import (
     "context"
-
     "github.com/dinhtp/vmo-go-devops-challenge/application/database"
+
+    "github.com/dinhtp/vmo-go-devops-challenge/application/message"
     "github.com/dinhtp/vmo-go-devops-challenge/application/model"
     "go.mongodb.org/mongo-driver/bson/primitive"
     "go.mongodb.org/mongo-driver/mongo"
@@ -18,12 +19,12 @@ func NewRepository(db *mongo.Client) *Repository {
     return &Repository{db: db}
 }
 
-func (r *Repository) List(ctx context.Context) ([]*model.Application, int64, error) {
+func (r *Repository) List(ctx context.Context, req *message.ListApplicationRequest) ([]*model.Application, int64, error) {
     var results []*model.Application
 
     query := r.buildQuery()
-    filter := primitive.M{}
-    opts := options.Find().SetLimit(10).SetSkip(0)
+    filter := r.buildListFilter(req)
+    opts := options.Find().SetLimit(int64(req.Limit)).SetSkip(int64(req.Limit) * (int64(req.Page) - 1))
 
     totalCount, err := query.CountDocuments(ctx, filter)
     if err != nil {
@@ -78,4 +79,25 @@ func (r *Repository) Delete(ctx context.Context, id primitive.ObjectID) error {
 
 func (r *Repository) buildQuery() *mongo.Collection {
     return r.db.Database(database.Name).Collection(database.CollectionApplications)
+}
+
+func (r *Repository) buildListFilter(req *message.ListApplicationRequest) primitive.M {
+    filter := primitive.M{}
+    if req.Name != "" {
+        filter["name"] = req.Name
+    }
+
+    if req.Type != "" {
+        filter["type"] = req.Type
+    }
+
+    if req.Enabled == "1" {
+        filter["enabled"] = true
+    }
+
+    if req.Enabled == "0" {
+        filter["enabled"] = false
+    }
+
+    return filter
 }

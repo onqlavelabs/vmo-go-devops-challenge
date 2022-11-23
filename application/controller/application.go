@@ -45,6 +45,11 @@ func (c *ApplicationController) RegisterHandler() {
 func (c *ApplicationController) Get(e echo.Context) error {
     request := &message.OneApplicationRequest{ID: e.Param("id")}
 
+    err := request.Validate()
+    if err != nil {
+        return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
+    }
+
     result, err := application.NewService(c.db).Get(context.Background(), request)
     if err != nil {
         return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -55,7 +60,7 @@ func (c *ApplicationController) Get(e echo.Context) error {
 
 // List godoc
 // @Summary      Get applications list
-// @Description  Get applications list by page and limit
+// @Description  Get applications list by page and limit, filter by "type", "name" and "enabled"
 // @Tags         applications
 // @Accept       json
 // @Produce      json
@@ -63,25 +68,22 @@ func (c *ApplicationController) Get(e echo.Context) error {
 // @Param        limit     query		int 	false	"page limit"
 // @Param        type      query		string	false	"current page"
 // @Param        name      query		string	false	"page limit"
-// @Param        enabled   query        bool	false	"page limit"
+// @Param        enabled   query        string	false	"page limit"
 // @Success      200  {object}  message.ListApplicationResponse
 // @Failure      500  {object}  interface{} "{"message":"error_description"}"
 // @Router       /applications [get]
 func (c *ApplicationController) List(e echo.Context) error {
     request := &message.ListApplicationRequest{
         Page:    uint(util.StringToInt(e.QueryParam("page"))),
-        Limit:   uint(util.StringToInt(e.QueryParam("per_page"))),
+        Limit:   uint(util.StringToInt(e.QueryParam("limit"))),
         Type:    e.QueryParam("type"),
         Name:    e.QueryParam("name"),
         Enabled: e.QueryParam("enabled"),
     }
 
-    if request.Page == 0 {
-        request.Page = 1
-    }
-
-    if request.Limit == 0 {
-        request.Limit = 10
+    err := request.Validate()
+    if err != nil {
+        return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
     }
 
     result, err := application.NewService(c.db).List(context.Background(), request)
@@ -106,6 +108,11 @@ func (c *ApplicationController) Create(e echo.Context) error {
     payload := new(message.Application)
     if err := e.Bind(payload); err != nil {
         return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+    }
+
+    err := payload.Validate()
+    if err != nil {
+        return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
     }
 
     result, err := application.NewService(c.db).Create(context.Background(), payload)
@@ -133,6 +140,11 @@ func (c *ApplicationController) Update(e echo.Context) error {
         return echo.NewHTTPError(http.StatusBadRequest, err.Error())
     }
 
+    err := payload.Validate()
+    if err != nil {
+        return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
+    }
+
     payload.ID = e.Param("id")
     result, err := application.NewService(c.db).Update(context.Background(), payload)
     if err != nil {
@@ -155,7 +167,12 @@ func (c *ApplicationController) Update(e echo.Context) error {
 func (c *ApplicationController) Delete(e echo.Context) error {
     request := &message.OneApplicationRequest{ID: e.Param("id")}
 
-    err := application.NewService(c.db).Delete(context.Background(), request)
+    err := request.Validate()
+    if err != nil {
+        return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
+    }
+
+    err = application.NewService(c.db).Delete(context.Background(), request)
     if err != nil {
         return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
     }

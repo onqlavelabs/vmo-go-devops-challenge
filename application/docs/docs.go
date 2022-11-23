@@ -10,7 +10,14 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "Desmond",
+            "email": "dinhtp@vmodev.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -18,7 +25,7 @@ const docTemplate = `{
     "paths": {
         "/applications": {
             "get": {
-                "description": "Get applications list by page and limit",
+                "description": "Get applications list by page and limit, filter by \"type\", \"name\" and \"enabled\"",
                 "consumes": [
                     "application/json"
                 ],
@@ -55,7 +62,7 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "boolean",
+                        "type": "string",
                         "description": "page limit",
                         "name": "enabled",
                         "in": "query"
@@ -69,7 +76,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "{\"error\":\"error_code\", \"message\":\"error_description\"}",
+                        "description": "{\"message\":\"error_description\"}",
                         "schema": {
                             "type": "object"
                         }
@@ -107,7 +114,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "{\"error\":\"error_code\", \"message\":\"error_description\"}",
+                        "description": "{\"message\":\"error_description\"}",
                         "schema": {
                             "type": "object"
                         }
@@ -145,7 +152,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "{\"error\":\"error_code\", \"message\":\"error_description\"}",
+                        "description": "{\"message\":\"error_description\"}",
                         "schema": {
                             "type": "object"
                         }
@@ -190,7 +197,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "{\"error\":\"error_code\", \"message\":\"error_description\"}",
+                        "description": "{\"message\":\"error_description\"}",
                         "schema": {
                             "type": "object"
                         }
@@ -226,7 +233,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "{\"error\":\"error_code\", \"message\":\"error_description\"}",
+                        "description": "{\"message\":\"error_description\"}",
                         "schema": {
                             "type": "object"
                         }
@@ -240,19 +247,24 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Data privacy application description"
                 },
                 "enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                 },
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "98q34hiufqh894yh554"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Data Privacy"
                 },
                 "type": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "web"
                 }
             }
         },
@@ -279,17 +291,24 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "localhost:8080",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Programming Challenge Swagger API",
+	Description:      "Sample Application Swagger API.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
