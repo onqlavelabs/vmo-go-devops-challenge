@@ -23,10 +23,9 @@ func (s *Service) Authenticate(ctx context.Context, r *message.AuthRequest) (*me
     }
 
     // create jwt Auth claims
-    expiredIn := 12 * 60 * 60 // 12 hours
     claims := model.JwtAuthClaim{
         StandardClaims: jwt.StandardClaims{
-            ExpiresAt: time.Now().Add(time.Second * time.Duration(expiredIn)).Unix(),
+            ExpiresAt: time.Now().Add(time.Second * time.Duration(ExpiredTime)).Unix(),
             IssuedAt:  time.Now().Unix(),
         },
         Username: DefaultUser,
@@ -39,5 +38,5 @@ func (s *Service) Authenticate(ctx context.Context, r *message.AuthRequest) (*me
         return nil, err
     }
 
-    return &message.AuthResponse{BearerToken: signedToken, ExpiredIn: expiredIn}, nil
+    return &message.AuthResponse{BearerToken: signedToken, ExpiredIn: ExpiredTime}, nil
 }

@@ -11,6 +11,14 @@ import (
     "go.mongodb.org/mongo-driver/mongo/options"
 )
 
+type RepositoryInterface interface {
+    List(ctx context.Context, req *message.ListApplicationRequest) ([]*model.Application, int64, error)
+    Get(ctx context.Context, id primitive.ObjectID) (*model.Application, error)
+    Insert(ctx context.Context, o *model.Application) (*model.Application, error)
+    Update(ctx context.Context, o *model.Application) (*model.Application, error)
+    Delete(ctx context.Context, id primitive.ObjectID) error
+}
+
 type Repository struct {
     db *mongo.Client
 }

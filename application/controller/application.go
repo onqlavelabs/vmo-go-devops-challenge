@@ -55,7 +55,7 @@ func (c *ApplicationController) Get(e echo.Context) error {
         return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
     }
 
-    result, err := application.NewService(c.db).Get(context.Background(), request)
+    result, err := application.NewService(application.NewRepository(c.db)).Get(context.Background(), request)
     if err != nil {
         return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
     }
@@ -91,7 +91,7 @@ func (c *ApplicationController) List(e echo.Context) error {
         return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
     }
 
-    result, err := application.NewService(c.db).List(context.Background(), request)
+    result, err := application.NewService(application.NewRepository(c.db)).List(context.Background(), request)
     if err != nil {
         return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
     }
@@ -120,7 +120,7 @@ func (c *ApplicationController) Create(e echo.Context) error {
         return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
     }
 
-    result, err := application.NewService(c.db).Create(context.Background(), payload)
+    result, err := application.NewService(application.NewRepository(c.db)).Create(context.Background(), payload)
     if err != nil {
         return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
     }
@@ -151,7 +151,7 @@ func (c *ApplicationController) Update(e echo.Context) error {
     }
 
     payload.ID = e.Param("id")
-    result, err := application.NewService(c.db).Update(context.Background(), payload)
+    result, err := application.NewService(application.NewRepository(c.db)).Update(context.Background(), payload)
     if err != nil {
         return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
     }
@@ -177,7 +177,7 @@ func (c *ApplicationController) Delete(e echo.Context) error {
         return echo.NewHTTPError(http.StatusPreconditionFailed, err.Error())
     }
 
-    err = application.NewService(c.db).Delete(context.Background(), request)
+    err = application.NewService(application.NewRepository(c.db)).Delete(context.Background(), request)
     if err != nil {
         return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
     }

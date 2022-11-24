@@ -8,15 +8,14 @@ import (
     "github.com/dinhtp/vmo-go-devops-challenge/application/message"
     "github.com/sirupsen/logrus"
     "go.mongodb.org/mongo-driver/bson/primitive"
-    "go.mongodb.org/mongo-driver/mongo"
 )
 
 type Service struct {
-    repo *Repository
+    repo RepositoryInterface
 }
 
-func NewService(db *mongo.Client) *Service {
-    return &Service{repo: NewRepository(db)}
+func NewService(repo RepositoryInterface) *Service {
+    return &Service{repo: repo}
 }
 
 func (s *Service) Get(ctx context.Context, r *message.OneApplicationRequest) (*message.Application, error) {
