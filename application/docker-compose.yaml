@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  application-server:
+    build: .
+    image: application-server
+    restart: unless-stopped
+    command: /bin/sh -c "programming-challenge migration migrate && programming-challenge migration seed && programming-challenge serve"
+    environment:
+      - ADDRESS=0.0.0.0:9090
+      - MONGODB=mongodb://root:root@application-mongo/?authSource=admin
+    ports:
+      - "8080:9090"
+    depends_on:
+      - application-mongo
+    hostname: application-server
+    container_name: application-server
+    networks:
+      - application
+
+  application-mongo:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=programming_challenge
+    ports:
+      - "27017:27017"
+    hostname: application-mongo
+    container_name: application-mongo
+    networks:
+      - application
+
+networks:
+  application:
+    driver: bridge

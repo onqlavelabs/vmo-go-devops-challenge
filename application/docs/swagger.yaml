@@ -1,0 +1,242 @@
+basePath: /api/v1
+definitions:
+  message.Application:
+    properties:
+      description:
+        example: Data privacy application description
+        type: string
+      enabled:
+        example: true
+        type: boolean
+      id:
+        example: 98q34hiufqh894yh554
+        type: string
+      name:
+        example: Data Privacy
+        type: string
+      type:
+        example: web
+        type: string
+    type: object
+  message.AuthRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  message.AuthResponse:
+    properties:
+      bearer_token:
+        type: string
+      expired_in:
+        type: integer
+    type: object
+  message.ListApplicationResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/message.Application'
+        type: array
+      limit:
+        type: integer
+      max_page:
+        type: integer
+      page:
+        type: integer
+      total_count:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: dinhtp@vmodev.com
+    name: Desmond
+  description: Sample Application Swagger API.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Programming Challenge Swagger API
+  version: "1.0"
+paths:
+  /applications:
+    get:
+      consumes:
+      - application/json
+      description: Get applications list by page and limit, filter by "type", "name"
+        and "enabled"
+      parameters:
+      - description: current page
+        in: query
+        name: page
+        type: integer
+      - description: page limit
+        in: query
+        name: limit
+        type: integer
+      - description: current page
+        in: query
+        name: type
+        type: string
+      - description: page limit
+        in: query
+        name: name
+        type: string
+      - description: page limit
+        in: query
+        name: enabled
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.ListApplicationResponse'
+        "500":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+      summary: Get applications list
+      tags:
+      - applications
+    post:
+      consumes:
+      - application/json
+      description: Create new application
+      parameters:
+      - description: Application Data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/message.Application'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/message.Application'
+        "500":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+      summary: Create new application
+      tags:
+      - applications
+  /applications/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an application detail by ID
+      parameters:
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{}'
+          schema:
+            type: object
+        "500":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+      summary: Delete an application
+      tags:
+      - applications
+    get:
+      consumes:
+      - application/json
+      description: Get an application by ID
+      parameters:
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Application'
+        "500":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+      summary: Get an application detail
+      tags:
+      - applications
+    put:
+      consumes:
+      - application/json
+      description: Update application detail by ID
+      parameters:
+      - description: Application Data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/message.Application'
+      - description: Application ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Application'
+        "500":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+      summary: Update application detail
+      tags:
+      - applications
+  /authenticate:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate existing user
+      parameters:
+      - description: Authenticate Data
+        in: body
+        name: application
+        required: true
+        schema:
+          $ref: '#/definitions/message.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/message.AuthResponse'
+        "403":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+        "500":
+          description: '{"message":"error_description"}'
+          schema:
+            type: object
+      summary: Authenticate existing user
+      tags:
+      - authentication
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
